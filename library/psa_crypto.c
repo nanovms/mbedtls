@@ -35,7 +35,6 @@
  * stored keys. */
 #include "psa_crypto_storage.h"
 
-#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 #include "mbedtls/platform.h"

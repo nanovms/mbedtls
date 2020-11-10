@@ -27,7 +27,6 @@
 #include "mbedtls/rsa.h"
 #include "mbedtls/error.h"
 
-#include <stdio.h>
 #include <string.h>
 
 #if defined(MBEDTLS_PLATFORM_C)

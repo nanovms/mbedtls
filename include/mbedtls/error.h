@@ -28,8 +28,6 @@
 #include MBEDTLS_CONFIG_FILE
 #endif
 
-#include <stddef.h>
-
 /**
  * Error code layout.
  *

@@ -38,9 +38,6 @@
 #include MBEDTLS_CONFIG_FILE
 #endif
 
-#include <stdint.h>
-#include <stddef.h>
-
 #define MBEDTLS_ERR_CHACHA20_BAD_INPUT_DATA         -0x0051 /**< Invalid input parameter(s). */
 
 /* MBEDTLS_ERR_CHACHA20_FEATURE_UNAVAILABLE is deprecated and should not be

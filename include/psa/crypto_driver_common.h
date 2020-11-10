@@ -35,9 +35,6 @@
 #ifndef PSA_CRYPTO_DRIVER_COMMON_H
 #define PSA_CRYPTO_DRIVER_COMMON_H
 
-#include <stddef.h>
-#include <stdint.h>
-
 /* Include type definitions (psa_status_t, psa_algorithm_t,
  * psa_key_type_t, etc.) and macros to build and analyze values
  * of these types. */

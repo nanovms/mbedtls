@@ -58,9 +58,6 @@
 #define mbedtls_free       free
 #endif
 
-#include <limits.h>
-#include <stdint.h>
-
 #if defined(MBEDTLS_RSA_C)
 static int rsa_can_do( mbedtls_pk_type_t type )
 {

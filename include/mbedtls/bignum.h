@@ -28,9 +28,6 @@
 #include MBEDTLS_CONFIG_FILE
 #endif
 
-#include <stddef.h>
-#include <stdint.h>
-
 #if defined(MBEDTLS_FS_IO)
 #include <stdio.h>
 #endif

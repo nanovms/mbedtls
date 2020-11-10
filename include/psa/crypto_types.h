@@ -33,8 +33,6 @@
 #ifndef PSA_CRYPTO_TYPES_H
 #define PSA_CRYPTO_TYPES_H
 
-#include <stdint.h>
-
 /** \defgroup error Error codes
  * @{
  */

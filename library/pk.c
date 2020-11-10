@@ -40,9 +40,6 @@
 #include "mbedtls/psa_util.h"
 #endif
 
-#include <limits.h>
-#include <stdint.h>
-
 /* Parameter validation macros based on platform_util.h */
 #define PK_VALIDATE_RET( cond )    \
     MBEDTLS_INTERNAL_VALIDATE_RET( cond, MBEDTLS_ERR_PK_BAD_INPUT_DATA )

@@ -25,8 +25,6 @@
 #ifndef MBEDTLS_MD_H
 #define MBEDTLS_MD_H
 
-#include <stddef.h>
-
 #if !defined(MBEDTLS_CONFIG_FILE)
 #include "mbedtls/config.h"
 #else

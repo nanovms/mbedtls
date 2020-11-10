@@ -28,8 +28,6 @@
 #include MBEDTLS_CONFIG_FILE
 #endif
 
-#include <stddef.h>
-
 /**
  * \name PEM Error codes
  * These error codes are returned in case of errors reading the

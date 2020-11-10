@@ -33,7 +33,6 @@
 #include MBEDTLS_CONFIG_FILE
 #endif
 
-#include <stddef.h>
 #include "mbedtls/platform_util.h"
 
 #if defined(MBEDTLS_GCM_C) || defined(MBEDTLS_CCM_C) || defined(MBEDTLS_CHACHAPOLY_C)

@@ -46,9 +46,6 @@
 #include MBEDTLS_CONFIG_FILE
 #endif
 
-#include <stddef.h>
-#include <stdint.h>
-
 /* padlock.c and aesni.c rely on these values! */
 #define MBEDTLS_AES_ENCRYPT     1 /**< AES encryption. */
 #define MBEDTLS_AES_DECRYPT     0 /**< AES decryption. */

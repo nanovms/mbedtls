@@ -32,7 +32,6 @@
 #include "mbedtls/platform.h"
 #include "mbedtls/threading.h"
 
-#include <stddef.h>
 #include <string.h>
 
 #if !defined(MBEDTLS_PLATFORM_ZEROIZE_ALT)

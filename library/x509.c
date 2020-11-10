@@ -36,7 +36,6 @@
 #include "mbedtls/error.h"
 #include "mbedtls/oid.h"
 
-#include <stdio.h>
 #include <string.h>
 
 #if defined(MBEDTLS_PEM_PARSE_C)
@@ -59,7 +58,6 @@
 #endif
 #if defined(MBEDTLS_HAVE_TIME_DATE)
 #include "mbedtls/platform_util.h"
-#include <time.h>
 #endif
 
 #define CHECK(code) if( ( ret = ( code ) ) != 0 ){ return( ret ); }

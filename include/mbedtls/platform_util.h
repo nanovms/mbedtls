@@ -29,10 +29,8 @@
 #include MBEDTLS_CONFIG_FILE
 #endif
 
-#include <stddef.h>
 #if defined(MBEDTLS_HAVE_TIME_DATE)
 #include "mbedtls/platform_time.h"
-#include <time.h>
 #endif /* MBEDTLS_HAVE_TIME_DATE */
 
 #ifdef __cplusplus

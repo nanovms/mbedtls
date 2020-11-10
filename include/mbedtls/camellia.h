@@ -28,9 +28,6 @@
 #include MBEDTLS_CONFIG_FILE
 #endif
 
-#include <stddef.h>
-#include <stdint.h>
-
 #include "mbedtls/platform_util.h"
 
 #define MBEDTLS_CAMELLIA_ENCRYPT     1

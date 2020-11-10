@@ -28,8 +28,6 @@
 #include MBEDTLS_CONFIG_FILE
 #endif
 
-#include <stddef.h>
-
 #if defined(MBEDTLS_SHA512_C) && !defined(MBEDTLS_ENTROPY_FORCE_SHA256)
 #include "mbedtls/sha512.h"
 #define MBEDTLS_ENTROPY_SHA512_ACCUMULATOR

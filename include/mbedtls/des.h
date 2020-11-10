@@ -33,9 +33,6 @@
 #include MBEDTLS_CONFIG_FILE
 #endif
 
-#include <stddef.h>
-#include <stdint.h>
-
 #define MBEDTLS_DES_ENCRYPT     1
 #define MBEDTLS_DES_DECRYPT     0
 

@@ -31,8 +31,6 @@
 #include "mbedtls/asn1.h"
 #include "mbedtls/pk.h"
 
-#include <stddef.h>
-
 #if defined(MBEDTLS_CIPHER_C)
 #include "mbedtls/cipher.h"
 #endif

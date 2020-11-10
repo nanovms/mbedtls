@@ -29,9 +29,6 @@
 #include "mbedtls/platform_util.h"
 #include "mbedtls/error.h"
 
-#include <stddef.h>
-#include <string.h>
-
 #if defined(MBEDTLS_SELF_TEST)
 #if defined(MBEDTLS_PLATFORM_C)
 #include "mbedtls/platform.h"

@@ -30,7 +30,6 @@ extern "C" {
 #include "psa/crypto.h"
 #include "psa/crypto_se_driver.h"
 
-#include <stdint.h>
 #include <string.h>
 
 /* Limit the maximum key size in storage. This should have no effect
