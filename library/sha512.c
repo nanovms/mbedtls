@@ -117,7 +117,7 @@ void mbedtls_sha512_clone( mbedtls_sha512_context *dst,
     SHA512_VALIDATE( dst != NULL );
     SHA512_VALIDATE( src != NULL );
 
-    *dst = *src;
+    memcpy(dst, src, sizeof(mbedtls_sha512_context));
 }
 
 /*

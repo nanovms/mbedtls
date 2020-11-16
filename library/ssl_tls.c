@@ -6897,7 +6897,7 @@ int mbedtls_ssl_config_defaults( mbedtls_ssl_config *conf,
 #if defined(MBEDTLS_DHM_C) && defined(MBEDTLS_SSL_SRV_C)
             if( endpoint == MBEDTLS_SSL_IS_SERVER )
             {
-                const unsigned char dhm_p[] =
+                static const unsigned char dhm_p[] =
                     MBEDTLS_DHM_RFC3526_MODP_2048_P_BIN;
                 const unsigned char dhm_g[] =
                     MBEDTLS_DHM_RFC3526_MODP_2048_G_BIN;

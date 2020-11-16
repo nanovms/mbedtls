@@ -2605,7 +2605,8 @@ psa_status_t psa_hash_compute( psa_algorithm_t alg,
                                uint8_t *hash, size_t hash_size,
                                size_t *hash_length )
 {
-    psa_hash_operation_t operation = PSA_HASH_OPERATION_INIT;
+    psa_hash_operation_t operation;
+    memset(&operation, 0, sizeof(operation));   /* PSA_HASH_OPERATION_INIT */
     psa_status_t status = PSA_ERROR_CORRUPTION_DETECTED;
 
     *hash_length = hash_size;
@@ -2631,7 +2632,8 @@ psa_status_t psa_hash_compare( psa_algorithm_t alg,
                                const uint8_t *input, size_t input_length,
                                const uint8_t *hash, size_t hash_length )
 {
-    psa_hash_operation_t operation = PSA_HASH_OPERATION_INIT;
+    psa_hash_operation_t operation;
+    memset(&operation, 0, sizeof(operation));   /* PSA_HASH_OPERATION_INIT */
     psa_status_t status = PSA_ERROR_CORRUPTION_DETECTED;
 
     status = psa_hash_setup( &operation, alg );
@@ -4890,7 +4892,8 @@ static psa_status_t psa_key_derivation_tls12_prf_generate_next_block(
 {
     psa_algorithm_t hash_alg = PSA_ALG_HKDF_GET_HASH( alg );
     uint8_t hash_length = PSA_HASH_SIZE( hash_alg );
-    psa_hash_operation_t backup = PSA_HASH_OPERATION_INIT;
+    psa_hash_operation_t backup;
+    memset(&backup, 0, sizeof(backup)); /* PSA_HASH_OPERATION_INIT */
     psa_status_t status, cleanup_status;
 
     /* We can't be wanting more output after block 0xff, otherwise
