@@ -5,9 +5,8 @@
  * This file contains common definitions shared by all PSA crypto drivers.
  * Do not include it directly: instead, include the header file(s) for
  * the type(s) of driver that you are implementing. For example, if
- * you are writing a driver for a chip that provides both a hardware
- * random generator and an accelerator for some cryptographic algorithms,
- * include `psa/crypto_entropy_driver.h` and `psa/crypto_accel_driver.h`.
+ * you are writing a dynamically registered driver for a secure element,
+ * include `psa/crypto_se_driver.h`.
  *
  * This file is part of the PSA Crypto Driver Model, containing functions for
  * driver developers to implement to enable hardware to be called in a
@@ -35,11 +34,17 @@
 #ifndef PSA_CRYPTO_DRIVER_COMMON_H
 #define PSA_CRYPTO_DRIVER_COMMON_H
 
+#include <stddef.h>
+#include <stdint.h>
+
 /* Include type definitions (psa_status_t, psa_algorithm_t,
  * psa_key_type_t, etc.) and macros to build and analyze values
  * of these types. */
 #include "crypto_types.h"
 #include "crypto_values.h"
+/* Include size definitions which are used to size some arrays in operation
+ * structures. */
+#include <psa/crypto_sizes.h>
 
 /** For encrypt-decrypt functions, whether the operation is an encryption
  * or a decryption. */
