@@ -5633,7 +5633,7 @@ static int ssl_session_load( mbedtls_ssl_session *session,
             ( (uint64_t) p[7]       );
     p += 8;
 
-    session->start = (time_t) start;
+    session->start = (mbedtls_time_t) start;
 #endif /* MBEDTLS_HAVE_TIME */
 
     /*
