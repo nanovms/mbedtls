@@ -28,6 +28,8 @@
 #include MBEDTLS_CONFIG_FILE
 #endif
 
+#include <stddef.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif

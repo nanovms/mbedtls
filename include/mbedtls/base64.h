@@ -28,8 +28,12 @@
 #include MBEDTLS_CONFIG_FILE
 #endif
 
-#define MBEDTLS_ERR_BASE64_BUFFER_TOO_SMALL               -0x002A  /**< Output buffer too small. */
-#define MBEDTLS_ERR_BASE64_INVALID_CHARACTER              -0x002C  /**< Invalid character in input. */
+#include <stddef.h>
+
+/** Output buffer too small. */
+#define MBEDTLS_ERR_BASE64_BUFFER_TOO_SMALL               -0x002A
+/** Invalid character in input. */
+#define MBEDTLS_ERR_BASE64_INVALID_CHARACTER              -0x002C
 
 #ifdef __cplusplus
 extern "C" {
