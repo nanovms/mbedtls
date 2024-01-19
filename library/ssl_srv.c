@@ -674,7 +674,7 @@ static int ssl_parse_alpn_ext(mbedtls_ssl_context *ssl,
 {
     size_t list_len, cur_len, ours_len;
     const unsigned char *theirs, *start, *end;
-    const char **ours;
+    sstring *ours;
 
     /* If ALPN not configured, just ignore the extension */
     if (ssl->conf->alpn_list == NULL) {
@@ -729,13 +729,13 @@ static int ssl_parse_alpn_ext(mbedtls_ssl_context *ssl,
     /*
      * Use our order of preference
      */
-    for (ours = ssl->conf->alpn_list; *ours != NULL; ours++) {
-        ours_len = strlen(*ours);
+    for (ours = ssl->conf->alpn_list; !sstring_is_null(*ours); ours++) {
+        ours_len = ours->len;
         for (theirs = start; theirs != end; theirs += cur_len) {
             cur_len = *theirs++;
 
             if (cur_len == ours_len &&
-                memcmp(theirs, *ours, cur_len) == 0) {
+                memcmp(theirs, ours->ptr, cur_len) == 0) {
                 ssl->alpn_chosen = *ours;
                 return 0;
             }
@@ -2529,7 +2529,7 @@ static void ssl_write_ecjpake_kkpp_ext(mbedtls_ssl_context *ssl,
 static void ssl_write_alpn_ext(mbedtls_ssl_context *ssl,
                                unsigned char *buf, size_t *olen)
 {
-    if (ssl->alpn_chosen == NULL) {
+    if (sstring_is_null(ssl->alpn_chosen)) {
         *olen = 0;
         return;
     }
@@ -2545,7 +2545,7 @@ static void ssl_write_alpn_ext(mbedtls_ssl_context *ssl,
      */
     MBEDTLS_PUT_UINT16_BE(MBEDTLS_TLS_EXT_ALPN, buf, 0);
 
-    *olen = 7 + strlen(ssl->alpn_chosen);
+    *olen = 7 + ssl->alpn_chosen.len;
 
     MBEDTLS_PUT_UINT16_BE(*olen - 4, buf, 2);
 
@@ -2553,7 +2553,7 @@ static void ssl_write_alpn_ext(mbedtls_ssl_context *ssl,
 
     buf[6] = MBEDTLS_BYTE_0(*olen - 7);
 
-    memcpy(buf + 7, ssl->alpn_chosen, *olen - 7);
+    memcpy(buf + 7, ssl->alpn_chosen.ptr, *olen - 7);
 }
 #endif /* MBEDTLS_ECDH_C || MBEDTLS_ECDSA_C */
 

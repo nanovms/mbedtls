@@ -582,7 +582,7 @@ int mbedtls_pk_write_pubkey_pem(mbedtls_pk_context *key, unsigned char *buf, siz
         return ret;
     }
 
-    if ((ret = mbedtls_pem_write_buffer(PEM_BEGIN_PUBLIC_KEY, PEM_END_PUBLIC_KEY,
+    if ((ret = mbedtls_pem_write_buffer(ss(PEM_BEGIN_PUBLIC_KEY), ss(PEM_END_PUBLIC_KEY),
                                         output_buf + sizeof(output_buf) - ret,
                                         ret, buf, size, &olen)) != 0) {
         return ret;
@@ -595,7 +595,7 @@ int mbedtls_pk_write_key_pem(mbedtls_pk_context *key, unsigned char *buf, size_t
 {
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     unsigned char output_buf[PRV_DER_MAX_BYTES];
-    const char *begin, *end;
+    sstring begin, end;
     size_t olen = 0;
 
     PK_VALIDATE_RET(key != NULL);
@@ -607,14 +607,14 @@ int mbedtls_pk_write_key_pem(mbedtls_pk_context *key, unsigned char *buf, size_t
 
 #if defined(MBEDTLS_RSA_C)
     if (mbedtls_pk_get_type(key) == MBEDTLS_PK_RSA) {
-        begin = PEM_BEGIN_PRIVATE_KEY_RSA;
-        end = PEM_END_PRIVATE_KEY_RSA;
+        begin = ss(PEM_BEGIN_PRIVATE_KEY_RSA);
+        end = ss(PEM_END_PRIVATE_KEY_RSA);
     } else
 #endif
 #if defined(MBEDTLS_ECP_C)
     if (mbedtls_pk_get_type(key) == MBEDTLS_PK_ECKEY) {
-        begin = PEM_BEGIN_PRIVATE_KEY_EC;
-        end = PEM_END_PRIVATE_KEY_EC;
+        begin = ss(PEM_BEGIN_PRIVATE_KEY_EC);
+        end = ss(PEM_END_PRIVATE_KEY_EC);
     } else
 #endif
     return MBEDTLS_ERR_PK_FEATURE_UNAVAILABLE;

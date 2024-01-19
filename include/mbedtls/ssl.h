@@ -1253,7 +1253,7 @@ struct mbedtls_ssl_config {
 #endif /* MBEDTLS_KEY_EXCHANGE_SOME_PSK_ENABLED */
 
 #if defined(MBEDTLS_SSL_ALPN)
-    const char **alpn_list;         /*!< ordered list of protocols          */
+    sstring *alpn_list;             /*!< ordered list of protocols          */
 #endif
 
 #if defined(MBEDTLS_SSL_DTLS_SRTP)
@@ -1413,12 +1413,12 @@ struct mbedtls_ssl_context {
      * User settings
      */
 #if defined(MBEDTLS_X509_CRT_PARSE_C)
-    char *hostname;             /*!< expected peer CN for verification
+    sstring hostname;           /*!< expected peer CN for verification
                                      (and SNI if available)                 */
 #endif /* MBEDTLS_X509_CRT_PARSE_C */
 
 #if defined(MBEDTLS_SSL_ALPN)
-    const char *alpn_chosen;    /*!<  negotiated protocol                   */
+    sstring alpn_chosen;        /*!<  negotiated protocol                   */
 #endif /* MBEDTLS_SSL_ALPN */
 
 #if defined(MBEDTLS_SSL_DTLS_SRTP)
@@ -1510,7 +1510,7 @@ MBEDTLS_DEPRECATED extern int (*mbedtls_ssl_hw_record_finish)(
  *
  * \return              a string containing the ciphersuite name
  */
-const char *mbedtls_ssl_get_ciphersuite_name(const int ciphersuite_id);
+sstring mbedtls_ssl_get_ciphersuite_name(const int ciphersuite_id);
 
 /**
  * \brief               Return the ID of the ciphersuite associated with the
@@ -1520,7 +1520,7 @@ const char *mbedtls_ssl_get_ciphersuite_name(const int ciphersuite_id);
  *
  * \return              the ID with the ciphersuite or 0 if not found
  */
-int mbedtls_ssl_get_ciphersuite_id(const char *ciphersuite_name);
+int mbedtls_ssl_get_ciphersuite_id(sstring ciphersuite_name);
 
 /**
  * \brief          Initialize an SSL context
@@ -3008,8 +3008,8 @@ void mbedtls_ssl_conf_psk_cb(mbedtls_ssl_config *conf,
  * \return         0 if successful
  */
 MBEDTLS_DEPRECATED int mbedtls_ssl_conf_dh_param(mbedtls_ssl_config *conf,
-                                                 const char *dhm_P,
-                                                 const char *dhm_G);
+                                                 sstring dhm_P,
+                                                 sstring dhm_G);
 
 #endif /* MBEDTLS_DEPRECATED_REMOVED */
 
@@ -3246,7 +3246,7 @@ int mbedtls_ssl_set_hs_ecjpake_password(mbedtls_ssl_context *ssl,
  *
  * \return         0 on success, or MBEDTLS_ERR_SSL_BAD_INPUT_DATA.
  */
-int mbedtls_ssl_conf_alpn_protocols(mbedtls_ssl_config *conf, const char **protos);
+int mbedtls_ssl_conf_alpn_protocols(mbedtls_ssl_config *conf, sstring *protos);
 
 /**
  * \brief          Get the name of the negotiated Application Layer Protocol.
@@ -3255,9 +3255,9 @@ int mbedtls_ssl_conf_alpn_protocols(mbedtls_ssl_config *conf, const char **proto
  *
  * \param ssl      SSL context
  *
- * \return         Protocol name, or NULL if no protocol was negotiated.
+ * \return         Protocol name, or null string if no protocol was negotiated.
  */
-const char *mbedtls_ssl_get_alpn_protocol(const mbedtls_ssl_context *ssl);
+sstring mbedtls_ssl_get_alpn_protocol(const mbedtls_ssl_context *ssl);
 #endif /* MBEDTLS_SSL_ALPN */
 
 #if defined(MBEDTLS_SSL_DTLS_SRTP)
@@ -3758,7 +3758,7 @@ uint32_t mbedtls_ssl_get_verify_result(const mbedtls_ssl_context *ssl);
  *
  * \return         a string containing the ciphersuite name
  */
-const char *mbedtls_ssl_get_ciphersuite(const mbedtls_ssl_context *ssl);
+sstring mbedtls_ssl_get_ciphersuite(const mbedtls_ssl_context *ssl);
 
 /**
  * \brief          Return the current SSL version (SSLv3/TLSv1/etc)
@@ -4408,8 +4408,7 @@ void mbedtls_ssl_session_free(mbedtls_ssl_session *session);
  * \param prf      The tls_prf type function type to be used.
  * \param secret   Secret for the key derivation function.
  * \param slen     Length of the secret.
- * \param label    String label for the key derivation function,
- *                 terminated with null character.
+ * \param label    String label for the key derivation function.
  * \param random   Random bytes.
  * \param rlen     Length of the random bytes buffer.
  * \param dstbuf   The buffer holding the derived key.
@@ -4419,7 +4418,7 @@ void mbedtls_ssl_session_free(mbedtls_ssl_session *session);
  */
 int  mbedtls_ssl_tls_prf(const mbedtls_tls_prf_types prf,
                          const unsigned char *secret, size_t slen,
-                         const char *label,
+                         sstring label,
                          const unsigned char *random, size_t rlen,
                          unsigned char *dstbuf, size_t dlen);
 

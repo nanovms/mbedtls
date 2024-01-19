@@ -434,7 +434,7 @@ static int mpi_get_digit(mbedtls_mpi_uint *d, int radix, char c)
 /*
  * Import from an ASCII string
  */
-int mbedtls_mpi_read_string(mbedtls_mpi *X, int radix, const char *s)
+int mbedtls_mpi_read_string(mbedtls_mpi *X, int radix, sstring s)
 {
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     size_t i, j, slen, n;
@@ -450,17 +450,18 @@ int mbedtls_mpi_read_string(mbedtls_mpi *X, int radix, const char *s)
 
     mbedtls_mpi_init(&T);
 
-    if (s[0] == 0) {
+    if (sstring_is_empty(s)) {
         mbedtls_mpi_free(X);
         return 0;
     }
 
-    if (s[0] == '-') {
-        ++s;
+    if (s.ptr[0] == '-') {
+        s.ptr++;
+        s.len--;
         sign = -1;
     }
 
-    slen = strlen(s);
+    slen = s.len;
 
     if (radix == 16) {
         if (slen > MPI_SIZE_T_MAX >> 2) {
@@ -473,14 +474,14 @@ int mbedtls_mpi_read_string(mbedtls_mpi *X, int radix, const char *s)
         MBEDTLS_MPI_CHK(mbedtls_mpi_lset(X, 0));
 
         for (i = slen, j = 0; i > 0; i--, j++) {
-            MBEDTLS_MPI_CHK(mpi_get_digit(&d, radix, s[i - 1]));
+            MBEDTLS_MPI_CHK(mpi_get_digit(&d, radix, s.ptr[i - 1]));
             X->p[j / (2 * ciL)] |= d << ((j % (2 * ciL)) << 2);
         }
     } else {
         MBEDTLS_MPI_CHK(mbedtls_mpi_lset(X, 0));
 
         for (i = 0; i < slen; i++) {
-            MBEDTLS_MPI_CHK(mpi_get_digit(&d, radix, s[i]));
+            MBEDTLS_MPI_CHK(mpi_get_digit(&d, radix, s.ptr[i]));
             MBEDTLS_MPI_CHK(mbedtls_mpi_mul_int(&T, X, radix));
             MBEDTLS_MPI_CHK(mbedtls_mpi_add_int(X, &T, d));
         }

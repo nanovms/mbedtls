@@ -99,7 +99,7 @@ static int ssl_write_hostname_ext(mbedtls_ssl_context *ssl,
 
     *olen = 0;
 
-    if (ssl->hostname == NULL) {
+    if (sstring_is_null(ssl->hostname)) {
         return 0;
     }
 
@@ -107,7 +107,7 @@ static int ssl_write_hostname_ext(mbedtls_ssl_context *ssl,
                           ("client hello, adding server name extension: %s",
                            ssl->hostname));
 
-    hostname_len = strlen(ssl->hostname);
+    hostname_len = ssl->hostname.len;
 
     MBEDTLS_SSL_CHK_BUF_PTR(p, end, hostname_len + 9);
 
@@ -151,7 +151,7 @@ static int ssl_write_hostname_ext(mbedtls_ssl_context *ssl,
     MBEDTLS_PUT_UINT16_BE(hostname_len, p, 0);
     p += 2;
 
-    memcpy(p, ssl->hostname, hostname_len);
+    memcpy(p, ssl->hostname.ptr, hostname_len);
 
     *olen = hostname_len + 9;
 
@@ -707,7 +707,7 @@ static int ssl_write_alpn_ext(mbedtls_ssl_context *ssl,
 {
     unsigned char *p = buf;
     size_t alpnlen = 0;
-    const char **cur;
+    sstring *cur;
 
     *olen = 0;
 
@@ -717,8 +717,8 @@ static int ssl_write_alpn_ext(mbedtls_ssl_context *ssl,
 
     MBEDTLS_SSL_DEBUG_MSG(3, ("client hello, adding alpn extension"));
 
-    for (cur = ssl->conf->alpn_list; *cur != NULL; cur++) {
-        alpnlen += strlen(*cur) + 1;
+    for (cur = ssl->conf->alpn_list; !sstring_is_null(*cur); cur++) {
+        alpnlen += cur->len + 1;
     }
 
     MBEDTLS_SSL_CHK_BUF_PTR(p, end, 6 + alpnlen);
@@ -737,13 +737,13 @@ static int ssl_write_alpn_ext(mbedtls_ssl_context *ssl,
     /* Skip writing extension and list length for now */
     p += 4;
 
-    for (cur = ssl->conf->alpn_list; *cur != NULL; cur++) {
+    for (cur = ssl->conf->alpn_list; !sstring_is_null(*cur); cur++) {
         /*
          * mbedtls_ssl_conf_set_alpn_protocols() checked that the length of
          * protocol names is less than 255.
          */
-        *p = (unsigned char) strlen(*cur);
-        memcpy(p + 1, *cur, *p);
+        *p = (unsigned char) cur->len;
+        memcpy(p + 1, cur->ptr, *p);
         p += 1 + *p;
     }
 
@@ -1740,7 +1740,7 @@ static int ssl_parse_alpn_ext(mbedtls_ssl_context *ssl,
                               const unsigned char *buf, size_t len)
 {
     size_t list_len, name_len;
-    const char **p;
+    sstring *p;
 
     /* If we didn't send it, the server shouldn't send it */
     if (ssl->conf->alpn_list == NULL) {
@@ -1784,9 +1784,9 @@ static int ssl_parse_alpn_ext(mbedtls_ssl_context *ssl,
     }
 
     /* Check that the server chosen protocol was in our list and save it */
-    for (p = ssl->conf->alpn_list; *p != NULL; p++) {
-        if (name_len == strlen(*p) &&
-            memcmp(buf + 3, *p, name_len) == 0) {
+    for (p = ssl->conf->alpn_list; !sstring_is_null(*p); p++) {
+        if (name_len == p->len &&
+            memcmp(buf + 3, p->ptr, name_len) == 0) {
             ssl->alpn_chosen = *p;
             return 0;
         }

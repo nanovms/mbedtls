@@ -147,95 +147,95 @@
  */
 typedef struct {
     mbedtls_oid_descriptor_t    descriptor;
-    const char          *short_name;
+    sstring short_name;
 } oid_x520_attr_t;
 
 static const oid_x520_attr_t oid_x520_attr_type[] =
 {
     {
         { ADD_LEN(MBEDTLS_OID_AT_CN),          "id-at-commonName",               "Common Name" },
-        "CN",
+        ss_static_init("CN"),
     },
     {
         { ADD_LEN(MBEDTLS_OID_AT_COUNTRY),     "id-at-countryName",              "Country" },
-        "C",
+        ss_static_init("C"),
     },
     {
         { ADD_LEN(MBEDTLS_OID_AT_LOCALITY),    "id-at-locality",                 "Locality" },
-        "L",
+        ss_static_init("L"),
     },
     {
         { ADD_LEN(MBEDTLS_OID_AT_STATE),       "id-at-state",                    "State" },
-        "ST",
+        ss_static_init("ST"),
     },
     {
         { ADD_LEN(MBEDTLS_OID_AT_ORGANIZATION), "id-at-organizationName",         "Organization" },
-        "O",
+        ss_static_init("O"),
     },
     {
         { ADD_LEN(MBEDTLS_OID_AT_ORG_UNIT),    "id-at-organizationalUnitName",   "Org Unit" },
-        "OU",
+        ss_static_init("OU"),
     },
     {
         { ADD_LEN(MBEDTLS_OID_PKCS9_EMAIL),    "emailAddress",                   "E-mail address" },
-        "emailAddress",
+        ss_static_init("emailAddress"),
     },
     {
         { ADD_LEN(MBEDTLS_OID_AT_SERIAL_NUMBER), "id-at-serialNumber",            "Serial number" },
-        "serialNumber",
+        ss_static_init("serialNumber"),
     },
     {
         { ADD_LEN(MBEDTLS_OID_AT_POSTAL_ADDRESS), "id-at-postalAddress",
           "Postal address" },
-        "postalAddress",
+        ss_static_init("postalAddress"),
     },
     {
         { ADD_LEN(MBEDTLS_OID_AT_POSTAL_CODE), "id-at-postalCode",               "Postal code" },
-        "postalCode",
+        ss_static_init("postalCode"),
     },
     {
         { ADD_LEN(MBEDTLS_OID_AT_SUR_NAME),    "id-at-surName",                  "Surname" },
-        "SN",
+        ss_static_init("SN"),
     },
     {
         { ADD_LEN(MBEDTLS_OID_AT_GIVEN_NAME),  "id-at-givenName",                "Given name" },
-        "GN",
+        ss_static_init("GN"),
     },
     {
         { ADD_LEN(MBEDTLS_OID_AT_INITIALS),    "id-at-initials",                 "Initials" },
-        "initials",
+        ss_static_init("initials"),
     },
     {
         { ADD_LEN(MBEDTLS_OID_AT_GENERATION_QUALIFIER), "id-at-generationQualifier",
           "Generation qualifier" },
-        "generationQualifier",
+        ss_static_init("generationQualifier"),
     },
     {
         { ADD_LEN(MBEDTLS_OID_AT_TITLE),       "id-at-title",                    "Title" },
-        "title",
+        ss_static_init("title"),
     },
     {
         { ADD_LEN(MBEDTLS_OID_AT_DN_QUALIFIER), "id-at-dnQualifier",
           "Distinguished Name qualifier" },
-        "dnQualifier",
+        ss_static_init("dnQualifier"),
     },
     {
         { ADD_LEN(MBEDTLS_OID_AT_PSEUDONYM),   "id-at-pseudonym",                "Pseudonym" },
-        "pseudonym",
+        ss_static_init("pseudonym"),
     },
     {
         { ADD_LEN(MBEDTLS_OID_DOMAIN_COMPONENT), "id-domainComponent",
           "Domain component" },
-        "DC",
+        ss_static_init("DC"),
     },
     {
         { ADD_LEN(MBEDTLS_OID_AT_UNIQUE_IDENTIFIER), "id-at-uniqueIdentifier",
           "Unique Identifier" },
-        "uniqueIdentifier",
+        ss_static_init("uniqueIdentifier"),
     },
     {
         { NULL, 0, NULL, NULL },
-        NULL,
+        {},
     }
 };
 
@@ -243,7 +243,7 @@ FN_OID_TYPED_FROM_ASN1(oid_x520_attr_t, x520_attr, oid_x520_attr_type)
 FN_OID_GET_ATTR1(mbedtls_oid_get_attr_short_name,
                  oid_x520_attr_t,
                  x520_attr,
-                 const char *,
+                 sstring,
                  short_name)
 
 /*

@@ -452,12 +452,12 @@ size_t mbedtls_mpi_size(const mbedtls_mpi *X);
  *
  * \param X        The destination MPI. This must point to an initialized MPI.
  * \param radix    The numeric base of the input string.
- * \param s        Null-terminated string buffer.
+ * \param s        The ASCII string.
  *
  * \return         \c 0 if successful.
  * \return         A negative error code on failure.
  */
-int mbedtls_mpi_read_string(mbedtls_mpi *X, int radix, const char *s);
+int mbedtls_mpi_read_string(mbedtls_mpi *X, int radix, sstring s);
 
 /**
  * \brief          Export an MPI to an ASCII string.

@@ -813,7 +813,7 @@ int mbedtls_x509_dn_gets(char *buf, size_t size, const mbedtls_x509_name *dn)
     size_t i, j, n;
     unsigned char c, merge = 0;
     const mbedtls_x509_name *name;
-    const char *short_name = NULL;
+    sstring short_name = sstring_null();
     char s[MBEDTLS_X509_MAX_DN_NAME_SIZE], *p;
 
     memset(s, 0, sizeof(s));
@@ -829,7 +829,8 @@ int mbedtls_x509_dn_gets(char *buf, size_t size, const mbedtls_x509_name *dn)
         }
 
         if (name != dn) {
-            ret = mbedtls_snprintf(p, n, merge ? " + " : ", ");
+            sstring s = merge ? ss(" + ") : ss(", ");
+            ret = rsnprintf_sstring(p, n, s);
             MBEDTLS_X509_SAFE_SNPRINTF;
         }
 
@@ -849,7 +850,7 @@ int mbedtls_x509_dn_gets(char *buf, size_t size, const mbedtls_x509_name *dn)
 
             c = name->val.p[i];
             // Special characters requiring escaping, RFC 1779
-            if (c && strchr(",=+<>#;\"\\", c)) {
+            if (c && strchr(ss(",=+<>#;\"\\"), c)) {
                 if (j + 1 >= sizeof(s) - 1) {
                     return MBEDTLS_ERR_X509_BUFFER_TOO_SMALL;
                 }
@@ -861,8 +862,7 @@ int mbedtls_x509_dn_gets(char *buf, size_t size, const mbedtls_x509_name *dn)
                 s[j] = c;
             }
         }
-        s[j] = '\0';
-        ret = mbedtls_snprintf(p, n, "%s", s);
+        ret = mbedtls_snprintf(p, n, "%s", isstring(s, j));
         MBEDTLS_X509_SAFE_SNPRINTF;
 
         merge = name->next_merged;
@@ -894,7 +894,7 @@ int mbedtls_x509_serial_gets(char *buf, size_t size, const mbedtls_x509_buf *ser
         }
 
         ret = mbedtls_snprintf(p, n, "%02X%s",
-                               serial->p[i], (i < nr - 1) ? ":" : "");
+                               serial->p[i], (i < nr - 1) ? ss(":") : sstring_empty());
         MBEDTLS_X509_SAFE_SNPRINTF;
     }
 
@@ -904,66 +904,6 @@ int mbedtls_x509_serial_gets(char *buf, size_t size, const mbedtls_x509_buf *ser
     }
 
     return (int) (size - n);
-}
-
-/*
- * Helper for writing signature algorithms
- */
-int mbedtls_x509_sig_alg_gets(char *buf, size_t size, const mbedtls_x509_buf *sig_oid,
-                              mbedtls_pk_type_t pk_alg, mbedtls_md_type_t md_alg,
-                              const void *sig_opts)
-{
-    int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
-    char *p = buf;
-    size_t n = size;
-    const char *desc = NULL;
-
-    ret = mbedtls_oid_get_sig_alg_desc(sig_oid, &desc);
-    if (ret != 0) {
-        ret = mbedtls_snprintf(p, n, "???");
-    } else {
-        ret = mbedtls_snprintf(p, n, "%s", desc);
-    }
-    MBEDTLS_X509_SAFE_SNPRINTF;
-
-#if defined(MBEDTLS_X509_RSASSA_PSS_SUPPORT)
-    if (pk_alg == MBEDTLS_PK_RSASSA_PSS) {
-        const mbedtls_pk_rsassa_pss_options *pss_opts;
-        const mbedtls_md_info_t *md_info, *mgf_md_info;
-
-        pss_opts = (const mbedtls_pk_rsassa_pss_options *) sig_opts;
-
-        md_info = mbedtls_md_info_from_type(md_alg);
-        mgf_md_info = mbedtls_md_info_from_type(pss_opts->mgf1_hash_id);
-
-        ret = mbedtls_snprintf(p, n, " (%s, MGF1-%s, 0x%02X)",
-                               md_info ? mbedtls_md_get_name(md_info) : "???",
-                               mgf_md_info ? mbedtls_md_get_name(mgf_md_info) : "???",
-                               (unsigned int) pss_opts->expected_salt_len);
-        MBEDTLS_X509_SAFE_SNPRINTF;
-    }
-#else
-    ((void) pk_alg);
-    ((void) md_alg);
-    ((void) sig_opts);
-#endif /* MBEDTLS_X509_RSASSA_PSS_SUPPORT */
-
-    return (int) (size - n);
-}
-
-/*
- * Helper for writing "RSA key size", "EC key size", etc
- */
-int mbedtls_x509_key_size_helper(char *buf, size_t buf_size, const char *name)
-{
-    char *p = buf;
-    size_t n = buf_size;
-    int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
-
-    ret = mbedtls_snprintf(p, n, "%s key size", name);
-    MBEDTLS_X509_SAFE_SNPRINTF;
-
-    return 0;
 }
 
 #if defined(MBEDTLS_HAVE_TIME_DATE)

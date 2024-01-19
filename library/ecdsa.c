@@ -486,7 +486,7 @@ sign:
          * reusing the bits of the ephemeral key for blinding and eliminate the
          * risk that they leak this way.
          */
-        const char *blind_label = "BLINDING CONTEXT";
+        sstring blind_label = ss("BLINDING CONTEXT");
         mbedtls_hmac_drbg_context rng_ctx_blind;
 
         mbedtls_hmac_drbg_init(&rng_ctx_blind);
@@ -494,8 +494,8 @@ sign:
         mbedtls_hmac_drbg_seed_buf(p_rng_blind_det, md_info,
                                    data, 2 * grp_len);
         ret = mbedtls_hmac_drbg_update_ret(p_rng_blind_det,
-                                           (const unsigned char *) blind_label,
-                                           strlen(blind_label));
+                                           (const unsigned char *) blind_label.ptr,
+                                           blind_label.len);
         if (ret != 0) {
             mbedtls_hmac_drbg_free(&rng_ctx_blind);
             goto cleanup;

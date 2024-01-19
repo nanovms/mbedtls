@@ -622,28 +622,6 @@ const mbedtls_ecp_curve_info *mbedtls_ecp_curve_info_from_tls_id(uint16_t tls_id
 }
 
 /*
- * Get the curve info from the name
- */
-const mbedtls_ecp_curve_info *mbedtls_ecp_curve_info_from_name(const char *name)
-{
-    const mbedtls_ecp_curve_info *curve_info;
-
-    if (name == NULL) {
-        return NULL;
-    }
-
-    for (curve_info = mbedtls_ecp_curve_list();
-         curve_info->grp_id != MBEDTLS_ECP_DP_NONE;
-         curve_info++) {
-        if (strcmp(curve_info->name, name) == 0) {
-            return curve_info;
-        }
-    }
-
-    return NULL;
-}
-
-/*
  * Get the type of a curve
  */
 mbedtls_ecp_curve_type mbedtls_ecp_get_type(const mbedtls_ecp_group *grp)
@@ -840,7 +818,7 @@ int mbedtls_ecp_point_cmp(const mbedtls_ecp_point *P,
  * Import a non-zero point from ASCII strings
  */
 int mbedtls_ecp_point_read_string(mbedtls_ecp_point *P, int radix,
-                                  const char *x, const char *y)
+                                  sstring x, sstring y)
 {
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     ECP_VALIDATE_RET(P != NULL);

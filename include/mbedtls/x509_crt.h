@@ -687,7 +687,7 @@ int mbedtls_x509_crt_verify_with_profile(mbedtls_x509_crt *crt,
  * \param trust_ca The list of trusted CAs.
  * \param ca_crl   The list of CRLs for trusted CAs.
  * \param profile  The security profile to use for the verification.
- * \param cn       The expected Common Name. This may be \c NULL if the
+ * \param cn       The expected Common Name. This may be a null string if the
  *                 CN need not be verified.
  * \param flags    The address at which to store the result of the verification.
  *                 If the verification couldn't be completed, the flag value is
@@ -706,7 +706,7 @@ int mbedtls_x509_crt_verify_restartable(mbedtls_x509_crt *crt,
                                         mbedtls_x509_crt *trust_ca,
                                         mbedtls_x509_crl *ca_crl,
                                         const mbedtls_x509_crt_profile *profile,
-                                        const char *cn, uint32_t *flags,
+                                        sstring cn, uint32_t *flags,
                                         int (*f_vrfy)(void *, mbedtls_x509_crt *, int, uint32_t *),
                                         void *p_vrfy,
                                         mbedtls_x509_crt_restart_ctx *rs_ctx);

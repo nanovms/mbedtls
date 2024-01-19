@@ -387,7 +387,7 @@ typedef struct mbedtls_ssl_ciphersuite_t mbedtls_ssl_ciphersuite_t;
  */
 struct mbedtls_ssl_ciphersuite_t {
     int id;
-    const char *name;
+    sstring name;
 
     mbedtls_cipher_type_t cipher;
     mbedtls_md_type_t mac;
@@ -403,7 +403,7 @@ struct mbedtls_ssl_ciphersuite_t {
 
 const int *mbedtls_ssl_list_ciphersuites(void);
 
-const mbedtls_ssl_ciphersuite_t *mbedtls_ssl_ciphersuite_from_string(const char *ciphersuite_name);
+const mbedtls_ssl_ciphersuite_t *mbedtls_ssl_ciphersuite_from_string(sstring ciphersuite_name);
 const mbedtls_ssl_ciphersuite_t *mbedtls_ssl_ciphersuite_from_id(int ciphersuite_id);
 
 #if defined(MBEDTLS_PK_C)

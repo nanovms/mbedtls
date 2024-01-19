@@ -107,24 +107,6 @@ const mbedtls_cipher_info_t *mbedtls_cipher_info_from_type(
     return NULL;
 }
 
-const mbedtls_cipher_info_t *mbedtls_cipher_info_from_string(
-    const char *cipher_name)
-{
-    const mbedtls_cipher_definition_t *def;
-
-    if (NULL == cipher_name) {
-        return NULL;
-    }
-
-    for (def = mbedtls_cipher_definitions; def->info != NULL; def++) {
-        if (!strcmp(def->info->name, cipher_name)) {
-            return def->info;
-        }
-    }
-
-    return NULL;
-}
-
 const mbedtls_cipher_info_t *mbedtls_cipher_info_from_values(
     const mbedtls_cipher_id_t cipher_id,
     int key_bitlen,

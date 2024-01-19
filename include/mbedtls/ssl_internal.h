@@ -376,7 +376,7 @@ struct mbedtls_ssl_sig_hash_set_t {
           MBEDTLS_KEY_EXCHANGE_WITH_CERT_ENABLED */
 
 typedef int  mbedtls_ssl_tls_prf_cb(const unsigned char *secret, size_t slen,
-                                    const char *label,
+                                    sstring label,
                                     const unsigned char *random, size_t rlen,
                                     unsigned char *dstbuf, size_t dlen);
 

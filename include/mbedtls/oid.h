@@ -484,7 +484,7 @@ int mbedtls_oid_get_x509_ext_type(const mbedtls_asn1_buf *oid, int *ext_type);
  *
  * \return         0 if successful, or MBEDTLS_ERR_OID_NOT_FOUND
  */
-int mbedtls_oid_get_attr_short_name(const mbedtls_asn1_buf *oid, const char **short_name);
+int mbedtls_oid_get_attr_short_name(const mbedtls_asn1_buf *oid, sstring *short_name);
 
 /**
  * \brief          Translate PublicKeyAlgorithm OID into pk_type

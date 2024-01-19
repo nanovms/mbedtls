@@ -1230,6 +1230,10 @@ int mbedtls_pk_parse_key(mbedtls_pk_context *pk,
 {
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     const mbedtls_pk_info_t *pk_info;
+    sstring key_ss = {
+        .ptr = (char *)key,
+        .len = keylen,
+    };
 #if defined(MBEDTLS_PEM_PARSE_C)
     size_t len;
     mbedtls_pem_context pem;
@@ -1247,15 +1251,10 @@ int mbedtls_pk_parse_key(mbedtls_pk_context *pk,
     mbedtls_pem_init(&pem);
 
 #if defined(MBEDTLS_RSA_C)
-    /* Avoid calling mbedtls_pem_read_buffer() on non-null-terminated string */
-    if (key[keylen - 1] != '\0') {
-        ret = MBEDTLS_ERR_PEM_NO_HEADER_FOOTER_PRESENT;
-    } else {
-        ret = mbedtls_pem_read_buffer(&pem,
-                                      "-----BEGIN RSA PRIVATE KEY-----",
-                                      "-----END RSA PRIVATE KEY-----",
-                                      key, pwd, pwdlen, &len);
-    }
+    ret = mbedtls_pem_read_buffer(&pem,
+                                  ss("-----BEGIN RSA PRIVATE KEY-----"),
+                                  ss("-----END RSA PRIVATE KEY-----"),
+                                  key_ss, pwd, pwdlen, &len);
 
     if (ret == 0) {
         pk_info = mbedtls_pk_info_from_type(MBEDTLS_PK_RSA);
@@ -1277,15 +1276,10 @@ int mbedtls_pk_parse_key(mbedtls_pk_context *pk,
 #endif /* MBEDTLS_RSA_C */
 
 #if defined(MBEDTLS_ECP_C)
-    /* Avoid calling mbedtls_pem_read_buffer() on non-null-terminated string */
-    if (key[keylen - 1] != '\0') {
-        ret = MBEDTLS_ERR_PEM_NO_HEADER_FOOTER_PRESENT;
-    } else {
-        ret = mbedtls_pem_read_buffer(&pem,
-                                      "-----BEGIN EC PRIVATE KEY-----",
-                                      "-----END EC PRIVATE KEY-----",
-                                      key, pwd, pwdlen, &len);
-    }
+    ret = mbedtls_pem_read_buffer(&pem,
+                                  ss("-----BEGIN EC PRIVATE KEY-----"),
+                                  ss("-----END EC PRIVATE KEY-----"),
+                                  key_ss, pwd, pwdlen, &len);
     if (ret == 0) {
         pk_info = mbedtls_pk_info_from_type(MBEDTLS_PK_ECKEY);
 
@@ -1306,15 +1300,10 @@ int mbedtls_pk_parse_key(mbedtls_pk_context *pk,
     }
 #endif /* MBEDTLS_ECP_C */
 
-    /* Avoid calling mbedtls_pem_read_buffer() on non-null-terminated string */
-    if (key[keylen - 1] != '\0') {
-        ret = MBEDTLS_ERR_PEM_NO_HEADER_FOOTER_PRESENT;
-    } else {
-        ret = mbedtls_pem_read_buffer(&pem,
-                                      "-----BEGIN PRIVATE KEY-----",
-                                      "-----END PRIVATE KEY-----",
-                                      key, NULL, 0, &len);
-    }
+    ret = mbedtls_pem_read_buffer(&pem,
+                                  ss("-----BEGIN PRIVATE KEY-----"),
+                                  ss("-----END PRIVATE KEY-----"),
+                                  key_ss, NULL, 0, &len);
     if (ret == 0) {
         if ((ret = pk_parse_key_pkcs8_unencrypted_der(pk,
                                                       pem.buf, pem.buflen)) != 0) {
@@ -1328,15 +1317,10 @@ int mbedtls_pk_parse_key(mbedtls_pk_context *pk,
     }
 
 #if defined(MBEDTLS_PKCS12_C) || defined(MBEDTLS_PKCS5_C)
-    /* Avoid calling mbedtls_pem_read_buffer() on non-null-terminated string */
-    if (key[keylen - 1] != '\0') {
-        ret = MBEDTLS_ERR_PEM_NO_HEADER_FOOTER_PRESENT;
-    } else {
-        ret = mbedtls_pem_read_buffer(&pem,
-                                      "-----BEGIN ENCRYPTED PRIVATE KEY-----",
-                                      "-----END ENCRYPTED PRIVATE KEY-----",
-                                      key, NULL, 0, &len);
-    }
+    ret = mbedtls_pem_read_buffer(&pem,
+                                  ss("-----BEGIN ENCRYPTED PRIVATE KEY-----"),
+                                  ss("-----END ENCRYPTED PRIVATE KEY-----"),
+                                  key_ss, NULL, 0, &len);
     if (ret == 0) {
         if ((ret = pk_parse_key_pkcs8_encrypted_der(pk,
                                                     pem.buf, pem.buflen,
@@ -1442,6 +1426,10 @@ int mbedtls_pk_parse_public_key(mbedtls_pk_context *ctx,
 {
     int ret = MBEDTLS_ERR_ERROR_CORRUPTION_DETECTED;
     unsigned char *p;
+    sstring key_ss = {
+        .ptr = (char *)key,
+        .len = keylen,
+    };
 #if defined(MBEDTLS_RSA_C)
     const mbedtls_pk_info_t *pk_info;
 #endif
@@ -1459,15 +1447,10 @@ int mbedtls_pk_parse_public_key(mbedtls_pk_context *ctx,
 #if defined(MBEDTLS_PEM_PARSE_C)
     mbedtls_pem_init(&pem);
 #if defined(MBEDTLS_RSA_C)
-    /* Avoid calling mbedtls_pem_read_buffer() on non-null-terminated string */
-    if (key[keylen - 1] != '\0') {
-        ret = MBEDTLS_ERR_PEM_NO_HEADER_FOOTER_PRESENT;
-    } else {
-        ret = mbedtls_pem_read_buffer(&pem,
-                                      "-----BEGIN RSA PUBLIC KEY-----",
-                                      "-----END RSA PUBLIC KEY-----",
-                                      key, NULL, 0, &len);
-    }
+    ret = mbedtls_pem_read_buffer(&pem,
+                                  ss("-----BEGIN RSA PUBLIC KEY-----"),
+                                  ss("-----END RSA PUBLIC KEY-----"),
+                                  key_ss, NULL, 0, &len);
 
     if (ret == 0) {
         p = pem.buf;
@@ -1493,15 +1476,10 @@ int mbedtls_pk_parse_public_key(mbedtls_pk_context *ctx,
     }
 #endif /* MBEDTLS_RSA_C */
 
-    /* Avoid calling mbedtls_pem_read_buffer() on non-null-terminated string */
-    if (key[keylen - 1] != '\0') {
-        ret = MBEDTLS_ERR_PEM_NO_HEADER_FOOTER_PRESENT;
-    } else {
-        ret = mbedtls_pem_read_buffer(&pem,
-                                      "-----BEGIN PUBLIC KEY-----",
-                                      "-----END PUBLIC KEY-----",
-                                      key, NULL, 0, &len);
-    }
+    ret = mbedtls_pem_read_buffer(&pem,
+                                  ss("-----BEGIN PUBLIC KEY-----"),
+                                  ss("-----END PUBLIC KEY-----"),
+                                  key_ss, NULL, 0, &len);
 
     if (ret == 0) {
         /*

@@ -717,14 +717,14 @@ int mbedtls_ecp_point_cmp(const mbedtls_ecp_point *P,
  *
  * \param P         The destination point. This must be initialized.
  * \param radix     The numeric base of the input.
- * \param x         The first affine coordinate, as a null-terminated string.
- * \param y         The second affine coordinate, as a null-terminated string.
+ * \param x         The first affine coordinate, as an ASCII string.
+ * \param y         The second affine coordinate, as an ASCII string.
  *
  * \return          \c 0 on success.
  * \return          An \c MBEDTLS_ERR_MPI_XXX error code on failure.
  */
 int mbedtls_ecp_point_read_string(mbedtls_ecp_point *P, int radix,
-                                  const char *x, const char *y);
+                                  sstring x, sstring y);
 
 /**
  * \brief           This function exports a point into unsigned binary data.
