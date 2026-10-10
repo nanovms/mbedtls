@@ -180,7 +180,7 @@ void mbedtls_x509write_csr_init(mbedtls_x509write_csr *ctx);
  *                  a specific error code
  */
 int mbedtls_x509write_csr_set_subject_name(mbedtls_x509write_csr *ctx,
-                                           const char *subject_name);
+                                           sstring subject_name);
 
 /**
  * \brief           Set the key for a CSR (public key will be included,

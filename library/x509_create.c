@@ -34,7 +34,7 @@ typedef struct {
     const char *name; /* String representation of AttributeType, e.g.
                        * "CN" or "emailAddress". */
     size_t name_len; /* Length of 'name', without trailing 0 byte. */
-    const char *oid; /* String representation of OID of AttributeType,
+    sstring oid;     /* String representation of OID of AttributeType,
                       * as per RFC 5280, Appendix A.1. */
     int default_tag; /* The default character encoding used for the
                       * given attribute type, e.g.
@@ -47,62 +47,62 @@ typedef struct {
 static const x509_attr_descriptor_t x509_attrs[] =
 {
     { ADD_STRLEN("CN"),
-      MBEDTLS_OID_AT_CN, MBEDTLS_ASN1_UTF8_STRING },
+      ss_static_init(MBEDTLS_OID_AT_CN), MBEDTLS_ASN1_UTF8_STRING },
     { ADD_STRLEN("commonName"),
-      MBEDTLS_OID_AT_CN, MBEDTLS_ASN1_UTF8_STRING },
+      ss_static_init(MBEDTLS_OID_AT_CN), MBEDTLS_ASN1_UTF8_STRING },
     { ADD_STRLEN("C"),
-      MBEDTLS_OID_AT_COUNTRY, MBEDTLS_ASN1_PRINTABLE_STRING },
+      ss_static_init(MBEDTLS_OID_AT_COUNTRY), MBEDTLS_ASN1_PRINTABLE_STRING },
     { ADD_STRLEN("countryName"),
-      MBEDTLS_OID_AT_COUNTRY, MBEDTLS_ASN1_PRINTABLE_STRING },
+      ss_static_init(MBEDTLS_OID_AT_COUNTRY), MBEDTLS_ASN1_PRINTABLE_STRING },
     { ADD_STRLEN("O"),
-      MBEDTLS_OID_AT_ORGANIZATION, MBEDTLS_ASN1_UTF8_STRING },
+      ss_static_init(MBEDTLS_OID_AT_ORGANIZATION), MBEDTLS_ASN1_UTF8_STRING },
     { ADD_STRLEN("organizationName"),
-      MBEDTLS_OID_AT_ORGANIZATION, MBEDTLS_ASN1_UTF8_STRING },
+      ss_static_init(MBEDTLS_OID_AT_ORGANIZATION), MBEDTLS_ASN1_UTF8_STRING },
     { ADD_STRLEN("L"),
-      MBEDTLS_OID_AT_LOCALITY, MBEDTLS_ASN1_UTF8_STRING },
+      ss_static_init(MBEDTLS_OID_AT_LOCALITY), MBEDTLS_ASN1_UTF8_STRING },
     { ADD_STRLEN("locality"),
-      MBEDTLS_OID_AT_LOCALITY, MBEDTLS_ASN1_UTF8_STRING },
+      ss_static_init(MBEDTLS_OID_AT_LOCALITY), MBEDTLS_ASN1_UTF8_STRING },
     { ADD_STRLEN("R"),
-      MBEDTLS_OID_PKCS9_EMAIL, MBEDTLS_ASN1_IA5_STRING },
+      ss_static_init(MBEDTLS_OID_PKCS9_EMAIL), MBEDTLS_ASN1_IA5_STRING },
     { ADD_STRLEN("OU"),
-      MBEDTLS_OID_AT_ORG_UNIT, MBEDTLS_ASN1_UTF8_STRING },
+      ss_static_init(MBEDTLS_OID_AT_ORG_UNIT), MBEDTLS_ASN1_UTF8_STRING },
     { ADD_STRLEN("organizationalUnitName"),
-      MBEDTLS_OID_AT_ORG_UNIT, MBEDTLS_ASN1_UTF8_STRING },
+      ss_static_init(MBEDTLS_OID_AT_ORG_UNIT), MBEDTLS_ASN1_UTF8_STRING },
     { ADD_STRLEN("ST"),
-      MBEDTLS_OID_AT_STATE, MBEDTLS_ASN1_UTF8_STRING },
+      ss_static_init(MBEDTLS_OID_AT_STATE), MBEDTLS_ASN1_UTF8_STRING },
     { ADD_STRLEN("stateOrProvinceName"),
-      MBEDTLS_OID_AT_STATE, MBEDTLS_ASN1_UTF8_STRING },
+      ss_static_init(MBEDTLS_OID_AT_STATE), MBEDTLS_ASN1_UTF8_STRING },
     { ADD_STRLEN("emailAddress"),
-      MBEDTLS_OID_PKCS9_EMAIL, MBEDTLS_ASN1_IA5_STRING },
+      ss_static_init(MBEDTLS_OID_PKCS9_EMAIL), MBEDTLS_ASN1_IA5_STRING },
     { ADD_STRLEN("serialNumber"),
-      MBEDTLS_OID_AT_SERIAL_NUMBER, MBEDTLS_ASN1_PRINTABLE_STRING },
+      ss_static_init(MBEDTLS_OID_AT_SERIAL_NUMBER), MBEDTLS_ASN1_PRINTABLE_STRING },
     { ADD_STRLEN("postalAddress"),
-      MBEDTLS_OID_AT_POSTAL_ADDRESS, MBEDTLS_ASN1_PRINTABLE_STRING },
+      ss_static_init(MBEDTLS_OID_AT_POSTAL_ADDRESS), MBEDTLS_ASN1_PRINTABLE_STRING },
     { ADD_STRLEN("postalCode"),
-      MBEDTLS_OID_AT_POSTAL_CODE, MBEDTLS_ASN1_PRINTABLE_STRING },
+      ss_static_init(MBEDTLS_OID_AT_POSTAL_CODE), MBEDTLS_ASN1_PRINTABLE_STRING },
     { ADD_STRLEN("dnQualifier"),
-      MBEDTLS_OID_AT_DN_QUALIFIER, MBEDTLS_ASN1_PRINTABLE_STRING },
+      ss_static_init(MBEDTLS_OID_AT_DN_QUALIFIER), MBEDTLS_ASN1_PRINTABLE_STRING },
     { ADD_STRLEN("title"),
-      MBEDTLS_OID_AT_TITLE, MBEDTLS_ASN1_UTF8_STRING },
+      ss_static_init(MBEDTLS_OID_AT_TITLE), MBEDTLS_ASN1_UTF8_STRING },
     { ADD_STRLEN("surName"),
-      MBEDTLS_OID_AT_SUR_NAME, MBEDTLS_ASN1_UTF8_STRING },
+      ss_static_init(MBEDTLS_OID_AT_SUR_NAME), MBEDTLS_ASN1_UTF8_STRING },
     { ADD_STRLEN("SN"),
-      MBEDTLS_OID_AT_SUR_NAME, MBEDTLS_ASN1_UTF8_STRING },
+      ss_static_init(MBEDTLS_OID_AT_SUR_NAME), MBEDTLS_ASN1_UTF8_STRING },
     { ADD_STRLEN("givenName"),
-      MBEDTLS_OID_AT_GIVEN_NAME, MBEDTLS_ASN1_UTF8_STRING },
+      ss_static_init(MBEDTLS_OID_AT_GIVEN_NAME), MBEDTLS_ASN1_UTF8_STRING },
     { ADD_STRLEN("GN"),
-      MBEDTLS_OID_AT_GIVEN_NAME, MBEDTLS_ASN1_UTF8_STRING },
+      ss_static_init(MBEDTLS_OID_AT_GIVEN_NAME), MBEDTLS_ASN1_UTF8_STRING },
     { ADD_STRLEN("initials"),
-      MBEDTLS_OID_AT_INITIALS, MBEDTLS_ASN1_UTF8_STRING },
+      ss_static_init(MBEDTLS_OID_AT_INITIALS), MBEDTLS_ASN1_UTF8_STRING },
     { ADD_STRLEN("pseudonym"),
-      MBEDTLS_OID_AT_PSEUDONYM, MBEDTLS_ASN1_UTF8_STRING },
+      ss_static_init(MBEDTLS_OID_AT_PSEUDONYM), MBEDTLS_ASN1_UTF8_STRING },
     { ADD_STRLEN("generationQualifier"),
-      MBEDTLS_OID_AT_GENERATION_QUALIFIER, MBEDTLS_ASN1_UTF8_STRING },
+      ss_static_init(MBEDTLS_OID_AT_GENERATION_QUALIFIER), MBEDTLS_ASN1_UTF8_STRING },
     { ADD_STRLEN("domainComponent"),
-      MBEDTLS_OID_DOMAIN_COMPONENT, MBEDTLS_ASN1_IA5_STRING },
+      ss_static_init(MBEDTLS_OID_DOMAIN_COMPONENT), MBEDTLS_ASN1_IA5_STRING },
     { ADD_STRLEN("DC"),
-      MBEDTLS_OID_DOMAIN_COMPONENT,   MBEDTLS_ASN1_IA5_STRING },
-    { NULL, 0, NULL, MBEDTLS_ASN1_NULL }
+      ss_static_init(MBEDTLS_OID_DOMAIN_COMPONENT),   MBEDTLS_ASN1_IA5_STRING },
+    { NULL, 0, {.ptr = 0}, MBEDTLS_ASN1_NULL }
 };
 
 static const x509_attr_descriptor_t *x509_attr_descr_from_name(const char *name, size_t name_len)
@@ -123,12 +123,12 @@ static const x509_attr_descriptor_t *x509_attr_descr_from_name(const char *name,
     return cur;
 }
 
-int mbedtls_x509_string_to_names(mbedtls_asn1_named_data **head, const char *name)
+int mbedtls_x509_string_to_names(mbedtls_asn1_named_data **head, sstring name)
 {
     int ret = MBEDTLS_ERR_X509_INVALID_NAME;
-    const char *s = name, *c = s;
-    const char *end = s + strlen(s);
-    const char *oid = NULL;
+    const char *s = name.ptr, *c = s;
+    const char *end = s + name.len;
+    sstring oid;
     const x509_attr_descriptor_t *attr_descr = NULL;
     int in_tag = 1;
     char data[MBEDTLS_X509_MAX_DN_NAME_SIZE];
@@ -160,7 +160,7 @@ int mbedtls_x509_string_to_names(mbedtls_asn1_named_data **head, const char *nam
             }
         } else if (!in_tag && (*c == ',' || c == end)) {
             mbedtls_asn1_named_data *cur =
-                mbedtls_asn1_store_named_data(head, oid, strlen(oid),
+                mbedtls_asn1_store_named_data(head, oid.ptr, oid.len,
                                               (unsigned char *) data,
                                               d - data);
 

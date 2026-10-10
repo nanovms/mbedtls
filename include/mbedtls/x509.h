@@ -351,7 +351,7 @@ int mbedtls_x509_sig_alg_gets(char *buf, size_t size, const mbedtls_x509_buf *si
                               mbedtls_pk_type_t pk_alg, mbedtls_md_type_t md_alg,
                               const void *sig_opts);
 int mbedtls_x509_key_size_helper(char *buf, size_t buf_size, const char *name);
-int mbedtls_x509_string_to_names(mbedtls_asn1_named_data **head, const char *name);
+int mbedtls_x509_string_to_names(mbedtls_asn1_named_data **head, sstring name);
 int mbedtls_x509_set_extension(mbedtls_asn1_named_data **head, const char *oid, size_t oid_len,
                                int critical, const unsigned char *val,
                                size_t val_len);

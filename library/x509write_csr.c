@@ -70,7 +70,7 @@ void mbedtls_x509write_csr_set_key(mbedtls_x509write_csr *ctx, mbedtls_pk_contex
 }
 
 int mbedtls_x509write_csr_set_subject_name(mbedtls_x509write_csr *ctx,
-                                           const char *subject_name)
+                                           sstring subject_name)
 {
     return mbedtls_x509_string_to_names(&ctx->subject, subject_name);
 }
@@ -307,8 +307,8 @@ int mbedtls_x509write_csr_der(mbedtls_x509write_csr *ctx, unsigned char *buf,
     return ret;
 }
 
-#define PEM_BEGIN_CSR           "-----BEGIN CERTIFICATE REQUEST-----\n"
-#define PEM_END_CSR             "-----END CERTIFICATE REQUEST-----\n"
+#define PEM_BEGIN_CSR           ss("-----BEGIN CERTIFICATE REQUEST-----\n")
+#define PEM_END_CSR             ss("-----END CERTIFICATE REQUEST-----\n")
 
 #if defined(MBEDTLS_PEM_WRITE_C)
 int mbedtls_x509write_csr_pem(mbedtls_x509write_csr *ctx, unsigned char *buf, size_t size,
